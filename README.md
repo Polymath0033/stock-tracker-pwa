@@ -1,97 +1,62 @@
 # StockTracker PWA 📈
 
-A real-time stock price tracking Progressive Web App built with React, TypeScript, and modern web technologies.
-
-## 🚀 Live Demo
-
-- **Deployed App**: [https://stock-tracker-pwa.vercel.app](https://stock-tracker-pwa.vercel.app)
-- **GitHub Repository**: [https://github.com/your-username/stock-tracker-pwa](https://github.com/your-username/stock-tracker-pwa)
+A modern, real-time stock tracking Progressive Web App built with React, TypeScript, and Vite. Features live stock prices, interactive charts, and comprehensive market data with offline capabilities.
 
 ## ✨ Features
 
-### Core Features
-- 🏠 **Landing Page**: Hero section with search and popular stocks
-- 📊 **Stock Listing Page**: Advanced filtering and sorting capabilities
-- 📈 **Stock Detail Page**: Interactive charts and comprehensive company data
-- ⚡ **Real-time Updates**: Live stock prices via WebSocket simulation
-- 📱 **Progressive Web App**: Installable with offline capabilities
-
-### Technical Features
-- 🔄 **Real-time Data**: Stock prices update every 3 seconds
-- 🎯 **Advanced Filtering**: Filter by price range, change percentage, volume
-- 📊 **Interactive Charts**: Daily, weekly, and monthly price charts
-- 🔍 **Search Functionality**: Search stocks by symbol or company name
-- 📱 **Responsive Design**: Works on desktop, tablet, and mobile
-- 🎨 **Modern UI**: Clean, intuitive interface with Tailwind CSS
-- ⚡ **Performance Optimized**: Lazy loading, caching, and optimization
-- 🧪 **Well Tested**: Comprehensive unit tests with high coverage
+- 🚀 **Progressive Web App** - Install on any device for native app experience
+- 📊 **Real-time Data** - Live stock prices that update every few seconds
+- 📈 **Interactive Charts** - Dynamic price charts with multiple time intervals
+- 🔍 **Advanced Search** - Search stocks by symbol or company name
+- 🎯 **Smart Filtering** - Filter by price, volume, and change percentage
+- 📱 **Responsive Design** - Works perfectly on desktop and mobile
+- 🔄 **Offline Support** - Cached data available when offline
+- ⚡ **Fast Performance** - Optimized for speed with Vite and modern bundling
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- **React 19** - UI library
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **React Router** - Navigation
-- **Chart.js** - Interactive charts
-- **Lucide React** - Icons
+- **Frontend**: React 19, TypeScript, Tailwind CSS
+- **Charts**: Chart.js with React Chart.js 2
+- **PWA**: Vite PWA Plugin with Workbox
+- **API**: Alpha Vantage Stock API
+- **Testing**: Vitest, React Testing Library
+- **Build**: Vite
+- **Deployment**: Vercel
+- **CI/CD**: GitHub Actions
 
-### Testing
-- **Vitest** - Test runner
-- **React Testing Library** - Component testing
-- **Jest DOM** - DOM testing utilities
-
-### Build & Deployment
-- **Vite** - Build tool
-- **Vercel** - Deployment platform
-- **GitHub Actions** - CI/CD pipeline
-- **Lighthouse** - Performance monitoring
-
-### PWA Features
-- **Service Worker** - Offline functionality
-- **Web App Manifest** - Installation capability
-- **Workbox** - Advanced caching strategies
-
-## 📦 Installation & Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ or Bun runtime
+
+- Node.js 18+ or Bun
 - Alpha Vantage API key (free at [alphavantage.co](https://www.alphavantage.co/support/#api-key))
 
-### Local Development Setup
+### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/stock-tracker-pwa.git
+   git clone https://github.com/yourusername/stock-tracker-pwa.git
    cd stock-tracker-pwa
    ```
 
 2. **Install dependencies**
    ```bash
-   # Using npm
-   npm install
-   
-   # Using bun (recommended)
    bun install
+   # or
+   npm install
    ```
 
-3. **Environment Configuration**
+3. **Set up environment variables**
    ```bash
    cp .env.example .env
-   ```
-   
-   Edit `.env` and add your Alpha Vantage API key:
-   ```
-   VITE_ALPHA_VANTAGE_API_KEY=your_actual_api_key_here
+   # Edit .env and add your Alpha Vantage API key
    ```
 
 4. **Start development server**
    ```bash
-   # Using npm
-   npm run dev
-   
-   # Using bun
    bun run dev
+   # or
+   npm run dev
    ```
 
 5. **Open in browser**
@@ -99,214 +64,178 @@ A real-time stock price tracking Progressive Web App built with React, TypeScrip
    http://localhost:5173
    ```
 
+## 📖 Usage
+
+### Landing Page
+- Search for stocks by symbol or company name
+- View popular stocks with real-time prices
+- Install the PWA for offline access
+
+### Stock Listing
+- Browse all available stocks
+- Use advanced filters (price range, change percentage)
+- Sort by name, price, change, or volume
+- Real-time price updates
+
+### Stock Details
+- View detailed company information
+- Interactive price charts (daily, weekly, monthly)
+- Key financial metrics
+- Real-time price tracking
+
 ## 🧪 Testing
 
-### Run Tests
+Run the test suite:
+
 ```bash
-# Unit tests
-npm run test
+# Run all tests
+bun run test
 
-# Watch mode
-npm run test:watch
+# Run tests with coverage
+bun run test:coverage
 
-# Coverage report
-npm run test:coverage
+# Run tests in watch mode
+bun run test --watch
 
-# Test UI
-npm run test:ui
+# Run tests with UI
+bun run test:ui
 ```
 
-### Test Coverage
-- Components: 95%+ coverage
-- Services: 90%+ coverage
-- Utilities: 85%+ coverage
-- Overall: 90%+ coverage
+## 🏗️ Building for Production
 
-## 🏗️ Build & Deployment
-
-### Build for Production
 ```bash
-npm run build
+# Build the application
+bun run build
+
+# Preview the production build
+bun run preview
+
+# Run linting
+bun run lint
 ```
 
-### Preview Production Build
-```bash
-npm run preview
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. **Deploy to Vercel**
+   ```bash
+   vercel --prod
+   ```
+
+2. **Set environment variables in Vercel dashboard**
+   - `VITE_ALPHA_VANTAGE_API_KEY`
+
+### Manual Deployment
+
+1. **Build the project**
+   ```bash
+   bun run build
+   ```
+
+2. **Deploy the `dist` folder** to your hosting provider
+
+## 🔧 Configuration
+
+### API Configuration
+
+The app uses Alpha Vantage API for stock data. Configure your API key in the `.env` file:
+
+```env
+VITE_ALPHA_VANTAGE_API_KEY=your_api_key_here
 ```
 
-### Deploy to Vercel
-```bash
-# Install Vercel CLI
-npm i -g vercel
+### PWA Configuration
 
-# Deploy
-vercel --prod
+PWA settings are configured in `vite.config.ts`:
+
+```typescript
+VitePWA({
+  registerType: 'autoUpdate',
+  manifest: {
+    name: 'Stock Tracker PWA',
+    short_name: 'StockTracker',
+    theme_color: '#1f2937',
+    background_color: '#ffffff',
+    display: 'standalone',
+    // ... other settings
+  }
+})
 ```
 
-## 🔧 Project Structure
+## 🏃‍♂️ Performance
+
+- **Lighthouse Score**: 90+ across all metrics
+- **Bundle Size**: Optimized with code splitting
+- **Load Time**: < 3 seconds on 3G
+- **Real-time Updates**: 3-second polling interval
+- **Caching**: 30-second API response cache
+
+## 🔄 CI/CD Pipeline
+
+The project includes a comprehensive GitHub Actions workflow:
+
+- **Testing**: Automated test suite with coverage
+- **Building**: Production build generation
+- **Deployment**: Automatic deployment to Vercel
+- **Quality**: Lighthouse performance audits
+- **Security**: Vulnerability scanning
+
+## 📊 Technical Implementation
+
+### Real-time Data Flow
+
+1. **WebSocket Service** (with polling fallback)
+2. **Stock Context** for state management
+3. **React Query** for server state
+4. **Chart.js** for data visualization
+
+### Architecture
 
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── common/         # Common components (LoadingSpinner, etc.)
-│   └── ui/             # UI components (ErrorBoundary, etc.)
-├── context/            # React Context providers
-├── hooks/              # Custom React hooks
-├── pages/              # Page components
-├── services/           # API services and business logic
-├── types/              # TypeScript type definitions
-├── utils/              # Utility functions and helpers
-└── __tests__/          # Test files
+├── components/     # Reusable UI components
+├── pages/         # Route components
+├── services/      # API and WebSocket services
+├── context/       # React Context for state
+├── hooks/         # Custom React hooks
+├── types/         # TypeScript definitions
+├── utils/         # Utility functions
+└── __tests__/     # Unit tests
 ```
 
-## 📊 API Integration
+## 🐛 Troubleshooting
 
-### Alpha Vantage API
-- **Stock Search**: Symbol and company name search
-- **Real-time Quotes**: Current stock prices and changes
-- **Historical Data**: Daily, weekly, monthly charts
-- **Company Overview**: Detailed company information
+### Common Issues
 
-### API Endpoints Used
-- `SYMBOL_SEARCH` - Search for stocks
-- `GLOBAL_QUOTE` - Get current stock quote
-- `TIME_SERIES_DAILY` - Daily price data
-- `TIME_SERIES_WEEKLY` - Weekly price data
-- `TIME_SERIES_MONTHLY` - Monthly price data
-- `OVERVIEW` - Company overview data
+1. **API Rate Limits**
+   - Alpha Vantage free tier: 25 requests/minute
+   - Implement caching and request queuing
 
-## 🎯 Performance Optimizations
+2. **WebSocket Connection**
+   - Falls back to polling if WebSocket fails
+   - Check network connectivity
 
-### Caching Strategy
-- **Memory Cache**: 30-second cache for API responses
-- **Service Worker**: Offline caching for static assets
-- **API Cache**: 24-hour cache for historical data
+3. **PWA Installation**
+   - Requires HTTPS in production
+   - Check service worker registration
 
-### Code Splitting
-- Route-based code splitting
-- Lazy loading of components
-- Dynamic imports for heavy dependencies
+### Debug Mode
 
-### Bundle Optimization
-- Tree shaking for unused code
-- Minification and compression
-- Modern JavaScript output
+Enable debug logging:
 
-## 📱 PWA Features
-
-### Installation
-- Install prompt on supported browsers
-- Add to home screen on mobile
-- Standalone app experience
-
-### Offline Capability
-- Cached API responses
-- Offline-first architecture
-- Graceful degradation
-
-### Performance
-- Lighthouse score: 90+
-- First Contentful Paint: <1.5s
-- Time to Interactive: <3.5s
-
-## 🔐 Security
-
-### API Security
-- Environment variables for sensitive data
-- Request throttling and rate limiting
-- Input validation and sanitization
-
-### Content Security
-- HTTPS enforcement
-- Secure headers configuration
-- XSS protection
-
-## 🧩 CI/CD Pipeline
-
-### GitHub Actions Workflow
-- **Lint**: Code quality checks
-- **Test**: Unit and integration tests
-- **Build**: Production build verification
-- **Deploy**: Automatic deployment to Vercel
-- **Security**: Dependency vulnerability scanning
-- **Performance**: Lighthouse CI checks
-
-### Quality Gates
-- All tests must pass
-- Code coverage > 90%
-- No high-severity vulnerabilities
-- Lighthouse scores > 90
-
-## 📈 Monitoring & Analytics
-
-### Performance Monitoring
-- Lighthouse CI integration
-- Core Web Vitals tracking
-- Real User Monitoring (RUM)
-
-### Error Tracking
-- Error boundary implementation
-- Graceful error handling
-- User-friendly error messages
+```typescript
+// In stock-service.ts
+console.log('API Response:', response);
+```
 
 ## 🤝 Contributing
 
-### Development Workflow
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit changes (`git commit -m 'Add amazing feature'`)
 4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-### Code Standards
-- TypeScript strict mode
-- ESLint configuration
-- Prettier formatting
-- Conventional commits
-
-### Testing Requirements
-- Unit tests for new features
-- Integration tests for complex flows
-- Minimum 90% code coverage
-- All tests must pass
-
-## 📝 Environment Variables
-
-| Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
-| `VITE_ALPHA_VANTAGE_API_KEY` | Alpha Vantage API key | Yes | - |
-| `VITE_NODE_ENV` | Environment mode | No | development |
-| `VITE_API_TIMEOUT` | API request timeout (ms) | No | 30000 |
-| `VITE_CACHE_TIMEOUT` | Cache timeout (ms) | No | 30000 |
-
-## 🐛 Known Issues & Limitations
-
-### API Limitations
-- Alpha Vantage free tier: 25 requests/minute
-- Real-time data has 15-minute delay
-- Limited to US stock markets
-
-### Browser Compatibility
-- Modern browsers only (ES2020+)
-- PWA features require HTTPS
-- Some features may not work in older browsers
-
-## 🔮 Future Enhancements
-
-### Planned Features
-- [ ] User authentication and portfolios
-- [ ] Real-time WebSocket integration
-- [ ] International stock markets
-- [ ] Advanced chart indicators
-- [ ] Price alerts and notifications
-- [ ] Social features and discussions
-
-### Technical Improvements
-- [ ] Server-side rendering (SSR)
-- [ ] Database integration
-- [ ] Redis caching layer
-- [ ] WebSocket server implementation
-- [ ] Mobile app development
+5. Open a Pull Request
 
 ## 📄 License
 
@@ -314,16 +243,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Alpha Vantage](https://www.alphavantage.co/) for the stock market API
-- [React](https://reactjs.org/) team for the amazing library
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Vercel](https://vercel.com/) for the deployment platform
-- [Lucide](https://lucide.dev/) for the beautiful icons
+- [Alpha Vantage](https://www.alphavantage.co/) for stock market data
+- [Chart.js](https://www.chartjs.org/) for beautiful charts
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [Vite](https://vitejs.dev/) for blazing fast development
 
 ## 📞 Support
 
-For support, email your-email@example.com or create an issue in the GitHub repository.
+For support, email your-email@example.com or create an issue in the repository.
 
 ---
 
-**Built with ❤️ by [Your Name]**
+**Made with ❤️ using React, TypeScript, and modern web technologies**

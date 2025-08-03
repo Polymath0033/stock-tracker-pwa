@@ -179,3 +179,105 @@ export interface StockContextValue {
     reconnectWebSocket: () => void;
   };
 }
+
+
+
+
+// Responses type
+export interface AlphaVantageSearchResponse {
+  bestMatches?: AlphaVantageSearchMatch[];
+}
+
+export interface AlphaVantageSearchMatch {
+  '1. symbol': string;
+  '2. name': string;
+  '3. type': string;
+  '4. region': string;
+  '5. marketOpen': string;
+  '6. marketClose': string;
+  '7. timezone': string;
+  '8. currency': string;
+  '9. matchScore': string;
+}
+
+export interface AlphaVantageQuoteResponse {
+  'Global Quote': {
+    '01. symbol': string;
+    '02. open': string;
+    '03. high': string;
+    '04. low': string;
+    '05. price': string;
+    '06. volume': string;
+    '07. latest trading day': string;
+    '08. previous close': string;
+    '09. change': string;
+    '10. change percent': string;
+  };
+}
+
+export interface AlphaVantageTimeSeriesResponse {
+  'Time Series (Daily)'?: Record<string, AlphaVantageTimeSeriesData>;
+  'Weekly Time Series'?: Record<string, AlphaVantageTimeSeriesData>;
+  'Monthly Time Series'?: Record<string, AlphaVantageTimeSeriesData>;
+}
+
+export interface AlphaVantageTimeSeriesData {
+  '1. open': string;
+  '2. high': string;
+  '3. low': string;
+  '4. close': string;
+  '5. volume': string;
+}
+
+export interface AlphaVantageOverviewResponse {
+  Symbol: string;
+  Name: string;
+  Description: string;
+  Sector: string;
+  Industry: string;
+  MarketCapitalization: string;
+  PERatio: string;
+  PEGRatio: string;
+  BookValue: string;
+  DividendPerShare: string;
+  DividendYield: string;
+  EPS: string;
+  RevenuePerShareTTM: string;
+  ProfitMargin: string;
+  OperatingMarginTTM: string;
+  ReturnOnAssetsTTM: string;
+  ReturnOnEquityTTM: string;
+  RevenueTTM: string;
+  GrossProfitTTM: string;
+  DilutedEPSTTM: string;
+  QuarterlyEarningsGrowthYOY: string;
+  QuarterlyRevenueGrowthYOY: string;
+  AnalystTargetPrice: string;
+  TrailingPE: string;
+  ForwardPE: string;
+  PriceToSalesRatioTTM: string;
+  PriceToBookRatio: string;
+  EVToRevenue: string;
+  EVToEBITDA: string;
+  Beta: string;
+  '52WeekHigh': string;
+  '52WeekLow': string;
+  '50DayMovingAverage': string;
+  '200DayMovingAverage': string;
+  SharesOutstanding: string;
+  SharesFloat: string;
+  SharesShort: string;
+  SharesShortPriorMonth: string;
+  ShortRatio: string;
+  ShortPercentOutstanding: string;
+  ShortPercentFloat: string;
+  PercentInsiders: string;
+  PercentInstitutions: string;
+  ForwardAnnualDividendRate: string;
+  ForwardAnnualDividendYield: string;
+  PayoutRatio: string;
+  DividendDate: string;
+  ExDividendDate: string;
+  LastSplitFactor: string;
+  LastSplitDate: string;
+}

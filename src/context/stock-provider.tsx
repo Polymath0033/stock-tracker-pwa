@@ -3,7 +3,7 @@ import { stockService } from "../services/stock-service";
 import { WebSocketService } from "../services/websocket-service";
 import type { StockState, StockAction, StockFilter, Stock } from "../types";
 import { StockContext } from "./stock.context";
-// const stockService = new StockService();
+
 const websocketService = new WebSocketService();
 const initialState: StockState = {
   stocks: [],
@@ -37,7 +37,7 @@ function stockReducer(state: StockState, action: StockAction): StockState {
     case "SET_POPULAR_STOCKS":
       return { ...state, popularStocks: action.payload };
 
-    case "UPDATE_QUOTE":
+    case "UPDATE_QUOTE": {
       const newQuotes = new Map(state.quotes);
       newQuotes.set(action.payload.symbol, action.payload.quote);
 
@@ -56,7 +56,6 @@ function stockReducer(state: StockState, action: StockAction): StockState {
         return stock;
       });
 
-      // Update popular stocks as well
       const updatedPopularStocks = state.popularStocks.map((stock) => {
         if (stock.symbol === action.payload.symbol) {
           return {
@@ -77,6 +76,7 @@ function stockReducer(state: StockState, action: StockAction): StockState {
         stocks: updatedStocks,
         popularStocks: updatedPopularStocks,
       };
+    }
 
     case "SET_FILTER":
       return { ...state, filter: action.payload };
@@ -90,28 +90,29 @@ function stockReducer(state: StockState, action: StockAction): StockState {
     case "SET_SEARCH_LOADING":
       return { ...state, searchLoading: action.payload };
 
-    case "ADD_STOCK":
+    case "ADD_STOCK": {
       if (
         !state.stocks.find((stock) => stock.symbol === action.payload.symbol)
       ) {
         return { ...state, stocks: [...state.stocks, action.payload] };
       }
       return state;
+    }
 
-    case "REMOVE_STOCK":
+    case "REMOVE_STOCK": {
       return {
         ...state,
         stocks: state.stocks.filter((stock) => stock.symbol !== action.payload),
       };
+    }
 
     default:
       return state;
   }
 }
+
 export function StockProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(stockReducer, initialState);
-
-  // Initialize WebSocket connection status monitoring
   useEffect(() => {
     websocketService.subscribeToConnectionStatus((status) => {
       dispatch({ type: "SET_CONNECTION_STATUS", payload: status });
@@ -135,8 +136,6 @@ export function StockProvider({ children }: { children: ReactNode }) {
         } else {
           dispatch({ type: "SET_POPULAR_STOCKS", payload: response.data });
 
-          // Subscribe to real-time updates for popular stocks
-          // Only subscribe if we don't already have popular stocks loaded
           if (state.popularStocks.length === 0) {
             response.data.forEach((stock) => {
               websocketService.subscribeWithSimulation(

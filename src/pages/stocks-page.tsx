@@ -102,16 +102,31 @@ const StocksPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <button onClick={navigateToHome} className="flex items-center space-x-2 hover:text-blue-600 transition-colors">
+              <button
+                onClick={navigateToHome}
+                className="flex items-center space-x-2 hover:text-blue-600 transition-colors"
+              >
                 <TrendingUp className="w-8 h-8 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">StockTracker</h1>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  StockTracker
+                </h1>
               </button>
             </div>
             <nav className="flex items-center space-x-4">
-              <div className={`w-3 h-3 rounded-full ${state.connectionStatus.connected ? 'bg-green-500' : 'bg-red-500'}`} 
-                   title={state.connectionStatus.connected ? 'Connected' : 'Disconnected'} />
+              <div
+                className={`w-3 h-3 rounded-full ${
+                  state.connectionStatus.connected
+                    ? "bg-green-500"
+                    : "bg-red-500"
+                }`}
+                title={
+                  state.connectionStatus.connected
+                    ? "Connected"
+                    : "Disconnected"
+                }
+              />
               <span className="text-sm text-gray-600">
-                {state.connectionStatus.connected ? 'Live' : 'Offline'}
+                {state.connectionStatus.connected ? "Live" : "Offline"}
               </span>
             </nav>
           </div>
@@ -119,10 +134,8 @@ const StocksPage: React.FC = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
         <div className="mb-8 space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
-          
             <form onSubmit={handleSearch} className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -142,9 +155,8 @@ const StocksPage: React.FC = () => {
               </div>
             </form>
 
-        
             <button
-              type='button'
+              type="button"
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-3 rounded-lg hover:bg-gray-200 transition-colors whitespace-nowrap"
             >
@@ -153,17 +165,26 @@ const StocksPage: React.FC = () => {
             </button>
           </div>
 
-       
           {showFilters && (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Sort By
+                  </label>
                   <div className="space-y-2">
                     <select
                       value={localFilter.sortBy}
-                      onChange={(e) => handleFilterChange({ sortBy: e.target.value as any })}
+                      onChange={(e) =>
+                        handleFilterChange({
+                          sortBy: e.target.value as
+                            | "price"
+                            | "change"
+                            | "volume"
+                            | "name"
+                            | undefined,
+                        })
+                      }
                       className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                     >
                       <option value="name">Name</option>
@@ -173,75 +194,95 @@ const StocksPage: React.FC = () => {
                     </select>
                     <div className="flex items-center space-x-2">
                       <button
-                        onClick={() => handleFilterChange({ sortOrder: localFilter.sortOrder === 'asc' ? 'desc' : 'asc' })}
+                        onClick={() =>
+                          handleFilterChange({
+                            sortOrder:
+                              localFilter.sortOrder === "asc" ? "desc" : "asc",
+                          })
+                        }
                         className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-800"
                       >
                         <ArrowUpDown className="w-4 h-4" />
-                        <span>{localFilter.sortOrder === 'asc' ? 'Ascending' : 'Descending'}</span>
+                        <span>
+                          {localFilter.sortOrder === "asc"
+                            ? "Ascending"
+                            : "Descending"}
+                        </span>
                       </button>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Price Range
+                  </label>
                   <div className="space-y-2">
                     <div className="flex space-x-2">
                       <input
                         type="number"
                         placeholder="Min"
-                        value={localFilter.priceRange?.min || ''}
-                        onChange={(e) => handleFilterChange({
-                          priceRange: {
-                            min: parseFloat(e.target.value) || 0,
-                            max: localFilter.priceRange?.max || 10000
-                          }
-                        })}
+                        value={localFilter.priceRange?.min || ""}
+                        onChange={(e) =>
+                          handleFilterChange({
+                            priceRange: {
+                              min: parseFloat(e.target.value) || 0,
+                              max: localFilter.priceRange?.max || 10000,
+                            },
+                          })
+                        }
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                       />
                       <input
                         type="number"
                         placeholder="Max"
-                        value={localFilter.priceRange?.max || ''}
-                        onChange={(e) => handleFilterChange({
-                          priceRange: {
-                            min: localFilter.priceRange?.min || 0,
-                            max: parseFloat(e.target.value) || 10000
-                          }
-                        })}
+                        value={localFilter.priceRange?.max || ""}
+                        onChange={(e) =>
+                          handleFilterChange({
+                            priceRange: {
+                              min: localFilter.priceRange?.min || 0,
+                              max: parseFloat(e.target.value) || 10000,
+                            },
+                          })
+                        }
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                       />
                     </div>
                   </div>
                 </div>
 
-             
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Change % Range</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Change % Range
+                  </label>
                   <div className="space-y-2">
                     <div className="flex space-x-2">
                       <input
                         type="number"
                         placeholder="Min %"
-                        value={localFilter.changeRange?.min || ''}
-                        onChange={(e) => handleFilterChange({
-                          changeRange: {
-                            min: parseFloat(e.target.value) || -100,
-                            max: localFilter.changeRange?.max || 100
-                          }
-                        })}
+                        value={localFilter.changeRange?.min || ""}
+                        onChange={(e) =>
+                          handleFilterChange({
+                            changeRange: {
+                              min: parseFloat(e.target.value) || -100,
+                              max: localFilter.changeRange?.max || 100,
+                            },
+                          })
+                        }
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                       />
                       <input
                         type="number"
                         placeholder="Max %"
-                        value={localFilter.changeRange?.max || ''}
-                        onChange={(e) => handleFilterChange({
-                          changeRange: {
-                            min: localFilter.changeRange?.min || -100,
-                            max: parseFloat(e.target.value) || 100
-                          }
-                        })}
+                        value={localFilter.changeRange?.max || ""}
+                        onChange={(e) =>
+                          handleFilterChange({
+                            changeRange: {
+                              min: localFilter.changeRange?.min || -100,
+                              max: parseFloat(e.target.value) || 100,
+                            },
+                          })
+                        }
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                       />
                     </div>
@@ -254,7 +295,9 @@ const StocksPage: React.FC = () => {
 
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
-            {searchQuery.trim() ? `Search Results for "${searchQuery}"` : 'Popular Stocks'}
+            {searchQuery.trim()
+              ? `Search Results for "${searchQuery}"`
+              : "Popular Stocks"}
           </h2>
           <span className="text-sm text-gray-600">
             {filteredStocks.length} stocks
@@ -291,28 +334,56 @@ const StocksPage: React.FC = () => {
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-bold text-gray-900">{stock.symbol}</h3>
+                      <h3 className="text-lg font-bold text-gray-900">
+                        {stock.symbol}
+                      </h3>
                       <div className="flex items-center space-x-2">
-                        <div className={`w-2 h-2 rounded-full ${stock.changePercent >= 0 ? 'bg-green-500' : 'bg-red-500'}`} />
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            stock.changePercent >= 0
+                              ? "bg-green-500"
+                              : "bg-red-500"
+                          }`}
+                        />
                         <span className="text-xs text-gray-500">Live</span>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-600 truncate mt-1">{stock.name}</p>
+                    <p className="text-sm text-gray-600 truncate mt-1">
+                      {stock.name}
+                    </p>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-gray-900">${stock.price.toFixed(2)}</span>
+                    <span className="text-2xl font-bold text-gray-900">
+                      ${stock.price.toFixed(2)}
+                    </span>
                     <div className="text-right">
-                      <div className={`flex items-center space-x-1 ${stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {stock.changePercent >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                      <div
+                        className={`flex items-center space-x-1 ${
+                          stock.changePercent >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {stock.changePercent >= 0 ? (
+                          <TrendingUp className="w-4 h-4" />
+                        ) : (
+                          <TrendingDown className="w-4 h-4" />
+                        )}
                         <span className="text-sm font-medium">
-                          {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                          {stock.changePercent >= 0 ? "+" : ""}
+                          {stock.changePercent.toFixed(2)}%
                         </span>
                       </div>
-                      <div className={`text-sm ${stock.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}
+                      <div
+                        className={`text-sm ${
+                          stock.change >= 0 ? "text-green-600" : "text-red-600"
+                        }`}
+                      >
+                        {stock.change >= 0 ? "+" : ""}
+                        {stock.change.toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -333,18 +404,21 @@ const StocksPage: React.FC = () => {
           </div>
         )}
 
-        {!state.loading && !state.searchLoading && filteredStocks.length === 0 && (
-          <div className="text-center py-12">
-            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No stocks found</h3>
-            <p className="text-gray-600">
-              {searchQuery.trim() ? 
-                'Try adjusting your search query or filters.' : 
-                'Popular stocks will appear here once loaded.'
-              }
-            </p>
-          </div>
-        )}
+        {!state.loading &&
+          !state.searchLoading &&
+          filteredStocks.length === 0 && (
+            <div className="text-center py-12">
+              <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No stocks found
+              </h3>
+              <p className="text-gray-600">
+                {searchQuery.trim()
+                  ? "Try adjusting your search query or filters."
+                  : "Popular stocks will appear here once loaded."}
+              </p>
+            </div>
+          )}
       </main>
     </div>
   );

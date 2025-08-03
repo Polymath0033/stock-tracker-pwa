@@ -195,6 +195,7 @@ interface StockState {
 - `src/__tests__/stocks-page.test.tsx`
 - `src/__tests__/stock-detail-page.test.tsx`
 - `src/__tests__/stock-service.test.ts`
+- `src/__tests__/websocket-service.test.ts`
 
 **Testing Approach**:
 - Component integration testing
