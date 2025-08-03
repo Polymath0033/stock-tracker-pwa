@@ -29,7 +29,7 @@ jobs:
       run: bun run build --dry-run
       
     - name: Run tests
-      run: bun run test --coverage
+      run: bun run vitest --coverage
       
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -38,8 +38,37 @@ jobs:
         flags: unittests
         name: codecov-umbrella
 
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js for Snyk compatibility
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies with npm (for Snyk)
+      run: npm install
+      
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high --json
+        
+    - name: Upload Snyk results to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: snyk.sarif
+
   build:
-    needs: test
+    needs: [test, security]
     runs-on: ubuntu-latest
     
     steps:
@@ -66,7 +95,7 @@ jobs:
         path: dist/
 
   deploy:
-    needs: [test, build]
+    needs: [test, security, build]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
@@ -108,35 +137,25 @@ jobs:
       env:
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-  security:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/node@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=high
-
   notify:
-    needs: [test, build, deploy]
+    needs: [test, security, build, deploy]
     runs-on: ubuntu-latest
     if: always()
     
     steps:
     - name: Notify on success
-      if: needs.test.result == 'success' && needs.build.result == 'success' && needs.deploy.result == 'success'
+      if: needs.test.result == 'success' && needs.security.result == 'success' && needs.build.result == 'success' && needs.deploy.result == 'success'
       run: |
         echo "✅ All jobs completed successfully!"
         echo "🚀 Application deployed to production"
+        echo "🛡️ Security scan passed"
         
     - name: Notify on failure
-      if: needs.test.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure'
+      if: needs.test.result == 'failure' || needs.security.result == 'failure' || needs.build.result == 'failure' || needs.deploy.result == 'failure'
       run: |
         echo "❌ Pipeline failed!"
         echo "🔍 Check the logs for details"
+        if [ "${{ needs.security.result }}" == "failure" ]; then
+          echo "🚨 Security vulnerabilities found!"
+        fi
         exit 1

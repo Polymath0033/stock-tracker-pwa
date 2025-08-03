@@ -196,16 +196,16 @@ import type { WebSocketMessage, StockQuote, ConnectionStatus } from '../types';
 import { stockService } from './stock-service';
 
 export class WebSocketService {
-  private ws: WebSocket | null = null;
+  // private ws: WebSocket | null = null;
   private reconnectAttempts = 0;
-  private maxReconnectAttempts = 5;
-  private reconnectInterval = 5000;
-  private heartbeatInterval: ReturnType<typeof setInterval> | null = null;
+  // private maxReconnectAttempts = 5;
+  // private reconnectInterval = 5000;
+  // private heartbeatInterval: ReturnType<typeof setInterval> | null = null;
   private subscribers = new Map<string, (message: WebSocketMessage) => void>();
   private subscribedSymbols = new Set<string>();
   private connectionStatus: ConnectionStatus = {
     connected: false,
-    reconnectAttempts: 0
+    reconnectAttempts: 0,
   };
 
   private pollingInterval: ReturnType<typeof setInterval> | null = null;
@@ -242,30 +242,33 @@ export class WebSocketService {
 
       try {
         // Process all symbols concurrently for better performance
-        const promises = Array.from(this.subscribedSymbols).map(async (symbol) => {
-          try {
-            const response = await stockService.getStockQuote(symbol);
-            if (response.data && !response.error) {
-              const message: WebSocketMessage = {
-                type: 'quote',
-                data: response.data,
-                symbol
+        const promises = Array.from(this.subscribedSymbols).map(
+          async (symbol) => {
+            try {
+              const response = await stockService.getStockQuote(symbol);
+              if (response.data && !response.error) {
+                const message: WebSocketMessage = {
+                  type: "quote",
+                  data: response.data,
+                  symbol,
+                };
+                this.notifySubscribers(symbol, message);
+              }
+            } catch (error) {
+              const errorMessage: WebSocketMessage = {
+                type: "error",
+                message:
+                  error instanceof Error ? error.message : "Unknown error",
+                symbol,
               };
-              this.notifySubscribers(symbol, message);
+              this.notifySubscribers(symbol, errorMessage);
             }
-          } catch (error) {
-            const errorMessage: WebSocketMessage = {
-              type: 'error',
-              message: error instanceof Error ? error.message : 'Unknown error',
-              symbol
-            };
-            this.notifySubscribers(symbol, errorMessage);
           }
-        });
+        );
 
         await Promise.all(promises);
       } catch (error) {
-        console.error('Polling error:', error);
+        console.error("Polling error:", error);
       }
     }, this.pollingFrequency);
 
@@ -274,7 +277,7 @@ export class WebSocketService {
 
   private stopPolling(): void {
     this.isPolling = false;
-    
+
     if (this.pollingInterval) {
       clearInterval(this.pollingInterval);
       this.pollingInterval = null;
@@ -284,19 +287,21 @@ export class WebSocketService {
   private updateConnectionStatus(connected: boolean, error?: string): void {
     this.connectionStatus = {
       connected,
-      lastConnected: connected ? new Date().toISOString() : this.connectionStatus.lastConnected,
+      lastConnected: connected
+        ? new Date().toISOString()
+        : this.connectionStatus.lastConnected,
       reconnectAttempts: this.reconnectAttempts,
-      error
+      error,
     };
 
     // Notify connection status subscribers
     const connectionMessage: WebSocketMessage = {
-      type: 'connection',
-      message: connected ? 'Connected' : 'Disconnected'
+      type: "connection",
+      message: connected ? "Connected" : "Disconnected",
     };
-    
+
     // Use a more specific callback for connection status
-    const connectionCallback = this.subscribers.get('__connection__');
+    const connectionCallback = this.subscribers.get("__connection__");
     if (connectionCallback) {
       connectionCallback(connectionMessage);
     }
@@ -309,7 +314,10 @@ export class WebSocketService {
     }
   }
 
-  subscribe(symbol: string, callback: (message: WebSocketMessage) => void): void {
+  subscribe(
+    symbol: string,
+    callback: (message: WebSocketMessage) => void
+  ): void {
     this.subscribers.set(symbol, callback);
     this.subscribedSymbols.add(symbol);
 
@@ -330,16 +338,18 @@ export class WebSocketService {
     }
   }
 
-  subscribeToConnectionStatus(callback: (status: ConnectionStatus) => void): void {
-    this.subscribers.set('__connection__', (message: WebSocketMessage) => {
-      if (message.type === 'connection') {
+  subscribeToConnectionStatus(
+    callback: (status: ConnectionStatus) => void
+  ): void {
+    this.subscribers.set("__connection__", (message: WebSocketMessage) => {
+      if (message.type === "connection") {
         callback(this.connectionStatus);
       }
     });
   }
 
   unsubscribeFromConnectionStatus(): void {
-    this.subscribers.delete('__connection__');
+    this.subscribers.delete("__connection__");
   }
 
   getConnectionStatus(): ConnectionStatus {
@@ -366,26 +376,29 @@ export class WebSocketService {
   }
 
   // Enhanced method for demo with simulated real-time data
-  subscribeWithSimulation(symbol: string, callback: (message: WebSocketMessage) => void): void {
+  subscribeWithSimulation(
+    symbol: string,
+    callback: (message: WebSocketMessage) => void
+  ): void {
     this.subscribe(symbol, (message) => {
-      if (message.type === 'quote' && message.data) {
+      if (message.type === "quote" && message.data) {
         // Add some simulation for more realistic real-time feel
         const simulatedData: StockQuote = {
           ...message.data,
           price: this.simulatePriceChange(message.data.price),
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         };
-        
+
         // Recalculate change based on simulated price
         const change = simulatedData.price - message.data.previousClose;
         const changePercent = (change / message.data.previousClose) * 100;
-        
+
         simulatedData.change = change;
         simulatedData.changePercent = changePercent;
 
         callback({
           ...message,
-          data: simulatedData
+          data: simulatedData,
         });
       } else {
         callback(message);
@@ -396,7 +409,7 @@ export class WebSocketService {
   // Method to update polling frequency
   setPollingFrequency(frequency: number): void {
     this.pollingFrequency = Math.max(1000, frequency); // Minimum 1 second
-    
+
     // If currently polling, restart with new frequency
     if (this.isPolling) {
       this.stopPolling();

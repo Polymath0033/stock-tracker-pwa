@@ -1,27 +1,26 @@
-import React from 'react' 
-import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { StockProvider } from './context/stock-provider';
-import LandingPage from './pages/landing-page';
-import StocksPage from './pages/stocks-page';
-import StockDetailPage from './pages/stock-detail-page';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ErrorBoundary } from "./components/ui/ErrorBoundary";
+import { StockProvider } from "./context/stock-provider";
+import LandingPage from "./pages/landing-page";
+import StocksPage from "./pages/stocks-page";
+import StockDetailPage from "./pages/stock-detail-page";
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: <LandingPage />,
     },
     {
-      path: '/stocks',
+      path: "/stocks",
       element: <StocksPage />,
     },
     {
-      path: '/stock/:symbol',
+      path: "/stock/:symbol",
       element: <StockDetailPage />,
     },
     {
-      path: '/about',
+      path: "/about",
       element: <div>About</div>,
     },
   ]);
@@ -32,9 +31,7 @@ function App() {
         <RouterProvider router={router} />
       </StockProvider>
     </ErrorBoundary>
-  )
+  );
 }
 
-export default App
-
-
+export default App;
